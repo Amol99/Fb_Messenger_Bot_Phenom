@@ -38,32 +38,6 @@ GREETING_RESPONSES = ['Hi','Hello','Hey','Hi!','Hello!','Hey!']
 ##############################
 
 ###############################
-#Check for  Name (If state is 1 then we have to find out the name)
-def check_for_Name(sentence):
-    x = nltk.word_tokenize(sentence.lower())
-    print x
-    cleanup=[]
-    for i in x:
-        if i  not in stopset:
-            cleanup.append(i)
-    tagged_sent = pos_tag(cleanup)
-    print  tagged_sent
-    Nouns = [word for word, pos in tagged_sent if pos == 'NN']
-    print Nouns
-    y = None
-    global state
-    if len(Nouns)==0:
-        y = sentence
-    if  len(Nouns)!=0:
-        y= Nouns[len(Nouns)-1]
-	msg = y.title() + ' are you looking for jobs ?[Y/N]'
-	state = 2
-	return  msg
-
-###############################
-#print check_for_Name('Amol.')
-
-###############################
 #Check_For_Greeting (check if State is zero or not if yes then change it to 1)
 
 def check_for_greeting(sentence):
@@ -84,6 +58,33 @@ def check_for_greeting(sentence):
 ###############################
 
 #print  check_for_greeting('hey')
+
+###############################
+#Check for  Name (If state is 1 then we have to find out the name)
+def check_for_Name(sentence):
+    x = nltk.word_tokenize(sentence.lower())
+    print x
+    cleanup=[]
+    for i in x:
+        if i  not in stopset:
+            cleanup.append(i)
+    tagged_sent = pos_tag(cleanup)
+    print  tagged_sent
+    Nouns = [word for word, pos in tagged_sent if pos == 'NN']
+    print Nouns
+    y = None
+    global state
+    if len(Nouns)==0:
+        y = sentence
+    if  len(Nouns)!=0:
+        y= Nouns[len(Nouns)-1]
+	msg = y.title() + ' what are you looking for?'
+	state = 2
+	return  msg
+
+###############################
+#print check_for_Name('Amol.')
+
 
 ##############################
 #after asking user's name, now we will see whether he is looking for jobs or not.
@@ -120,14 +121,6 @@ def check_for_clue(sentence):
         if sentence.lower() in ['n','no','not']:
             state1=0
             return 'Okay, let us start again!\nPlease tell me what are you looking for?'
-
-
-
-
-
-        #out = get_jobs(skills)
-#        return 'Available jobs:'  
-
 
 ##############################
 
@@ -180,9 +173,7 @@ def process(message):
     elif state == 2:
         y = check_for_clue(message)
     return y
-###############################
-
-print  process('Hey, I am  Amol, I  live  in Aurangabad')
+############################### 
 '''
 @app.route('/', methods=['GET'])
 def handle_verification():
