@@ -93,18 +93,18 @@ def check_for_clue(sentence):
     global state1
     print state , state1
     global skills
-    #if (state==2)&(state1==0):
-    #    if  'job'in sentence.lower() or 'intern' in sentence.lower() or 'employment' in sentence.lower():
-    #       state1=1
-    #        return 'are you looking for jobs?[Y/N]'
     if (state==2)&(state1==0):
+        if  'job'in sentence.lower() or 'intern' in sentence.lower() or 'employment' in sentence.lower():
+           state1=1
+           return 'are you looking for jobs?[Y/N]'
+    if (state==2)&(state1==1):
         if sentence.lower() in ['y','yes','yeah','yup']:
             state1=2
             return 'Please give us your skills.'
-    if (state==2)&(state1==0):
+    if (state==2)&(state1==1):
         if sentence.lower() in ['n','no','not']:
             state1=0
-            return 'Okay, let us start again!\nPlease tell me are you looking for jobs?[Y/N]'
+            return 'Okay, let us start again!\nPlease tell me what are you looking for?'
     if (state==2)&(state1==2):
         state1=3
         skills=sentence
@@ -119,7 +119,7 @@ def check_for_clue(sentence):
     if (state==2)&(state1==3):
         if sentence.lower() in ['n','no','not']:
             state1=0
-            return 'Okay, let us start again!\nPlease tell me are you looking for jobs?[Y/N]'
+            return 'Okay, let us start again!\nPlease tell me what are you looking for?'
 
 
 
@@ -218,7 +218,7 @@ def handle_messages():
         if  msg !=None:
             send_message(PAGE_ACCESS_TOKEN, sender, msg)
             if (state==2)&(state1==4):
-                send_message(PAGE_ACCESS_TOKEN, sender, 'Let\'s restart the process, are you looking for jobs? [Y/N]' )
+                send_message(PAGE_ACCESS_TOKEN, sender, 'Let\'s restart the process,Please tell me what are you looking for?' )
                 state = 2
                 state1 = 0
         	return 'ok'
@@ -232,7 +232,7 @@ def handle_messages():
         				send_message(PAGE_ACCESS_TOKEN, sender, msg[j * 320:])
         	else:
         		send_message(PAGE_ACCESS_TOKEN, sender, msg)
-                msg = 'Let\'s discuss about work, are you looking for jobs? [Y/N]'
+                msg = 'Let\'s discuss about work, Please tell me what are you looking for?'
                 state = 2
                 state1 = 0
                 print state , state1
